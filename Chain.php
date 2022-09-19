@@ -44,11 +44,17 @@ final class Chain implements Provider, LoggerAwareInterface
     private $providers = [];
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * @param Provider[] $providers
      */
-    public function __construct(array $providers = [])
+    public function __construct(array $providers = [], string $name = 'chain')
     {
         $this->providers = $providers;
+        $this->name = $name;
     }
 
     public function setGeocodeQueryLogLevel(string $level)
@@ -125,7 +131,7 @@ final class Chain implements Provider, LoggerAwareInterface
      */
     public function getName(): string
     {
-        return 'chain';
+        return $this->name;
     }
 
     /**
