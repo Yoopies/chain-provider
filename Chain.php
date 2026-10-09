@@ -14,9 +14,9 @@ namespace Geocoder\Provider\Chain;
 
 use Geocoder\Collection;
 use Geocoder\Model\AddressCollection;
+use Geocoder\Provider\Provider;
 use Geocoder\Query\GeocodeQuery;
 use Geocoder\Query\ReverseQuery;
-use Geocoder\Provider\Provider;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
@@ -67,9 +67,16 @@ final class Chain implements Provider, LoggerAwareInterface
         $this->reverseQueryLogLevel = $level;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function setGeocodeQueryLogLevel(string $level): void
+    {
+        $this->geocodeQueryLogLevel = $level;
+    }
+
+    public function setReverseQueryLogLevel(string $level): void
+    {
+        $this->reverseQueryLogLevel = $level;
+    }
+
     public function geocodeQuery(GeocodeQuery $query): Collection
     {
         foreach ($this->providers as $provider) {
@@ -95,9 +102,6 @@ final class Chain implements Provider, LoggerAwareInterface
         return new AddressCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function reverseQuery(ReverseQuery $query): Collection
     {
         foreach ($this->providers as $provider) {
@@ -126,9 +130,6 @@ final class Chain implements Provider, LoggerAwareInterface
         return new AddressCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->name;
@@ -136,10 +137,6 @@ final class Chain implements Provider, LoggerAwareInterface
 
     /**
      * Adds a provider.
-     *
-     * @param Provider $provider
-     *
-     * @return Chain
      */
     public function add(Provider $provider): self
     {
@@ -149,11 +146,9 @@ final class Chain implements Provider, LoggerAwareInterface
     }
 
     /**
-     * @param $level
-     * @param $message
-     * @param array $context
+     * @param mixed[] $context
      */
-    private function log($level, $message, array $context = [])
+    private function log(mixed $level, string $message, array $context = []): void
     {
         if ($this->logger) {
             $this->logger->log($level, $message, $context);
