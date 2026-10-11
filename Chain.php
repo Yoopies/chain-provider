@@ -57,16 +57,6 @@ final class Chain implements Provider, LoggerAwareInterface
         $this->name = $name;
     }
 
-    public function setGeocodeQueryLogLevel(string $level)
-    {
-        $this->geocodeQueryLogLevel = $level;
-    }
-
-    public function setReverseQueryLogLevel(string $level)
-    {
-        $this->reverseQueryLogLevel = $level;
-    }
-
     public function setGeocodeQueryLogLevel(string $level): void
     {
         $this->geocodeQueryLogLevel = $level;
